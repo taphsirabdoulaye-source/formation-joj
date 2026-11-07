@@ -1,0 +1,114 @@
+[
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000201",
+    "nom": "Visite guidée du Musée Théodore Monod",
+    "date": "2026-10-31",
+    "heure_debut": "09:00",
+    "heure_fin": "11:00",
+    "lieu_id": "0199f5c2-0000-7000-8000-000000000101"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000202",
+    "nom": "Concert de kora au Village des Arts",
+    "date": "2026-10-31",
+    "heure_debut": "18:00",
+    "heure_fin": "20:00",
+    "lieu_id": "0199f5c2-0000-7000-8000-000000000106"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000203",
+    "nom": "Balade en pirogue autour de Gorée",
+    "date": "2026-11-01",
+    "heure_debut": "08:00",
+    "heure_fin": "10:30",
+    "lieu_id": "0199f5c2-0000-7000-8000-000000000105"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000204",
+    "nom": "Visite de l'Île de Gorée",
+    "date": "2026-11-01",
+    "heure_debut": "10:30",
+    "heure_fin": "12:30",
+    "lieu_id": "0199f5c2-0000-7000-8000-000000000105"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000205",
+    "nom": "Marché artisanal Sandaga",
+    "date": "2026-11-01",
+    "heure_debut": "14:00",
+    "heure_fin": "17:00",
+    "lieu_id": "0199f5c2-0000-7000-8000-000000000102"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000206",
+    "nom": "Coucher de soleil à la Corniche",
+    "date": "2026-11-01",
+    "heure_debut": "17:30",
+    "heure_fin": "19:00",
+    "lieu_id": "0199f5c2-0000-7000-8000-000000000110"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000207",
+    "nom": "Atelier de lutte sénégalaise",
+    "date": "2026-11-02",
+    "heure_debut": "09:00",
+    "heure_fin": "11:00",
+    "lieu_id": "0199f5c2-0000-7000-8000-000000000108"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000208",
+    "nom": "Exposition photos JOJ Dakar 2026",
+    "date": "2026-11-02",
+    "heure_debut": "11:00",
+    "heure_fin": "18:00",
+    "lieu_id": "0199f5c2-0000-7000-8000-000000000107"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000209",
+    "nom": "Dégustation au Marché Kermel",
+    "date": "2026-11-03",
+    "heure_debut": "10:00",
+    "heure_fin": "12:00",
+    "lieu_id": "0199f5c2-0000-7000-8000-000000000109"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000210",
+    "nom": "Soirée mbalax au Centre Blaise Senghor",
+    "date": "2026-11-03",
+    "heure_debut": "20:00",
+    "heure_fin": "23:00",
+    "lieu_id": "0199f5c2-0000-7000-8000-000000000107"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000211",
+    "nom": "Promenade au Monument de la Renaissance",
+    "date": "2026-11-05",
+    "heure_debut": "09:00",
+    "heure_fin": "10:30",
+    "lieu_id": "0199f5c2-0000-7000-8000-000000000104"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000212",
+    "nom": "Visite de la Grande Mosquée",
+    "date": "2026-11-07",
+    "heure_debut": "10:00",
+    "heure_fin": "11:30",
+    "lieu_id": "0199f5c2-0000-7000-8000-000000000111"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000213",
+    "nom": "Baignade et volley à Yoff",
+    "date": "2026-11-08",
+    "heure_debut": "15:00",
+    "heure_fin": "18:00",
+    "lieu_id": "0199f5c2-0000-7000-8000-000000000103"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000214",
+    "nom": "Dîner de clôture au Lagon",
+    "date": "2026-11-13",
+    "heure_debut": "19:00",
+    "heure_fin": "22:00",
+    "lieu_id": "0199f5c2-0000-7000-8000-000000000112"
+  }
+]

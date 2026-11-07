@@ -1,0 +1,74 @@
+[
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000101",
+    "nom": "Musée Théodore Monod",
+    "quartier": "Plateau",
+    "type": "musee"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000102",
+    "nom": "Marché Sandaga",
+    "quartier": "Médina",
+    "type": "marche"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000103",
+    "nom": "Plage de Yoff",
+    "quartier": "Yoff",
+    "type": "plage"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000104",
+    "nom": "Monument de la Renaissance Africaine",
+    "quartier": "Ouakam",
+    "type": "monument"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000105",
+    "nom": "Île de Gorée",
+    "quartier": "Gorée",
+    "type": "monument"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000106",
+    "nom": "Village des Arts",
+    "quartier": "Liberté 6",
+    "type": "musee"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000107",
+    "nom": "Centre Culturel Blaise Senghor",
+    "quartier": "HLM",
+    "type": "quartier"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000108",
+    "nom": "Stade Léopold Sédar Senghor",
+    "quartier": "Fann",
+    "type": "sport"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000109",
+    "nom": "Marché Kermel",
+    "quartier": "Plateau",
+    "type": "marche"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000110",
+    "nom": "Plage de la Corniche",
+    "quartier": "Corniche Ouest",
+    "type": "plage"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000111",
+    "nom": "Grande Mosquée de Dakar",
+    "quartier": "Médina",
+    "type": "monument"
+  },
+  {
+    "id": "0199f5c2-0000-7000-8000-000000000112",
+    "nom": "Restaurant Le Lagon",
+    "quartier": "Corniche Est",
+    "type": "restaurant"
+  }
+]

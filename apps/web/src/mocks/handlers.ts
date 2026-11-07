@@ -1,5 +1,6 @@
 import {
   createDisciplineSchema,
+  dateParamsSchema,
   type DisciplineResponse,
   type ProblemDetails,
   updateDisciplineSchema,
@@ -122,5 +123,43 @@ export const handlers = [
     if (!findDiscipline(id)) return notFound(id);
     fixture.disciplines = fixture.disciplines.filter((d) => d.id !== id);
     return new HttpResponse(null, { status: 204 });
+  }),
+
+  // ---------------------------------------------------------------------------
+  // Guide Touristique
+  // ---------------------------------------------------------------------------
+
+  http.get('*/api/guide-touristique/agenda/:date', async ({ params }) => {
+    const failure = await gate('GET', '/api/guide-touristique/agenda/:date');
+    if (failure) return failure;
+    const parsed = dateParamsSchema.safeParse({ date: String(params['date']) });
+    if (!parsed.success) {
+      return problem(400, 'VALIDATION_FAILED', 'The request is invalid.', {
+        errors: parsed.error.issues.map((i) => ({ path: i.path.join('.'), message: i.message })),
+      });
+    }
+    const { date } = parsed.data;
+    const result = [...fixture.animations]
+      .filter((a) => a.date === date)
+      .sort((a, b) => (a.heureDebut < b.heureDebut ? -1 : a.heureDebut > b.heureDebut ? 1 : 0));
+    return HttpResponse.json(result);
+  }),
+
+  http.get('*/api/guide-touristique/en-cours', async ({ request }) => {
+    const failure = await gate('GET', '/api/guide-touristique/en-cours');
+    if (failure) return failure;
+    const url = new URL(request.url);
+    const at = url.searchParams.get('at');
+    if (!at) {
+      return problem(400, 'VALIDATION_FAILED', 'The request is invalid.', {
+        errors: [{ path: 'at', message: 'Required' }],
+      });
+    }
+    const date = at.slice(0, 10);
+    const heure = at.slice(11, 16);
+    const result = fixture.animations.filter(
+      (a) => a.date === date && heure >= a.heureDebut && heure < a.heureFin,
+    );
+    return HttpResponse.json(result);
   }),
 ];
