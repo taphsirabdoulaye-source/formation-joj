@@ -81,6 +81,18 @@ describe('volunteers (application layer)', () => {
     expect((await slots.findById(slot.id))?.registeredCount).toBe(2);
   });
 
+  it.each([
+    ['an empty name', { name: '  ', email: 'awa.diop@example.com' }, 'REGISTRATION_NAME_REQUIRED'],
+    ['a malformed email', { name: 'Awa Diop', email: 'awa.diop' }, 'REGISTRATION_EMAIL_INVALID'],
+  ])('001-AS6: stores no registration for %s', async (_label, input, code) => {
+    const { slots, openSlot, registerVolunteer } = setup();
+    const slot = await openSlot.execute(morning());
+
+    await expect(registerVolunteer.execute(slot.id, input)).rejects.toMatchObject({ code });
+    expect(slots.allRegistrations()).toEqual([]);
+    expect((await slots.findById(slot.id))?.registeredCount).toBe(0);
+  });
+
   it('001-AS6: refuses a registration on an unknown slot', async () => {
     const { slots, registerVolunteer } = setup();
 
