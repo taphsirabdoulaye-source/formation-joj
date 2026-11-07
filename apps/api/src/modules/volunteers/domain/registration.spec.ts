@@ -25,6 +25,14 @@ describe('Registration', () => {
     );
   });
 
+  it('001-AS6: rejects an email longer than 254 characters', () => {
+    const longest = `${'a'.repeat(242)}@example.com`;
+    expect(register('Awa Diop', longest).email).toHaveLength(254);
+    expect(() => register('Awa Diop', `a${longest}`)).toThrow(
+      expect.objectContaining({ code: 'REGISTRATION_EMAIL_INVALID', kind: 'VALIDATION' }),
+    );
+  });
+
   it.each(['', 'awa.diop', 'awa@', '@example.com', 'awa diop@example.com'])(
     '001-AS6: rejects a malformed email (%j)',
     (email) => {

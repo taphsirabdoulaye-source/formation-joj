@@ -119,6 +119,18 @@ describe('/api/slots (e2e)', () => {
     expect(response.body.errors).toEqual([expect.objectContaining({ path: field })]);
   });
 
+  it('001-AS6: rejects an email longer than 254 characters (400, names email)', async () => {
+    const slot = await openSlot();
+
+    const response = await api()
+      .post(`/api/slots/${slot.id}/registrations`)
+      .send({ name: 'Awa Diop', email: `${'a'.repeat(300)}@example.com` })
+      .expect(400);
+
+    expect(response.body).toMatchObject({ status: 400, code: 'VALIDATION_FAILED' });
+    expect(response.body.errors).toEqual([expect.objectContaining({ path: 'email' })]);
+  });
+
   it('001-AS6: refuses a registration on an unknown slot (404)', async () => {
     const response = await api()
       .post(`/api/slots/${randomUUID()}/registrations`)

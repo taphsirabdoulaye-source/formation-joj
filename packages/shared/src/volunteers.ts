@@ -2,6 +2,9 @@ import { z } from 'zod';
 
 export const REGISTRATION_NAME_MAX_LENGTH = 100;
 
+/** La longueur maximale d'une adresse email (RFC 5321), qui est aussi celle de la colonne. */
+export const REGISTRATION_EMAIL_MAX_LENGTH = 254;
+
 /** Le plus grand entier d'une colonne `integer` Postgres : au-delà, la base refuserait le créneau. */
 export const SLOT_CAPACITY_MAX = 2_147_483_647;
 
@@ -37,7 +40,7 @@ export type SlotResponse = z.infer<typeof slotSchema>;
 /** Corps de `POST /api/slots/:id/registrations`. */
 export const registerVolunteerSchema = z.object({
   name: z.string().trim().min(1).max(REGISTRATION_NAME_MAX_LENGTH),
-  email: z.email(),
+  email: z.email().max(REGISTRATION_EMAIL_MAX_LENGTH),
 });
 export type RegisterVolunteerInput = z.infer<typeof registerVolunteerSchema>;
 

@@ -1,3 +1,4 @@
+import { REGISTRATION_EMAIL_MAX_LENGTH } from '@joj/shared';
 import { VolunteerError } from './volunteers.errors';
 
 export interface RegistrationProps {
@@ -69,7 +70,7 @@ function validName(name: string): string {
 }
 
 function validEmail(email: string): string {
-  if (!EMAIL_FORMAT.test(email)) {
+  if (email.length > REGISTRATION_EMAIL_MAX_LENGTH || !EMAIL_FORMAT.test(email)) {
     throw new VolunteerError('REGISTRATION_EMAIL_INVALID', `Malformed email ${email}`, { email });
   }
   return email;
