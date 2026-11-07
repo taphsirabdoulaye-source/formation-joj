@@ -2,13 +2,16 @@ import { z } from 'zod';
 
 export const REGISTRATION_NAME_MAX_LENGTH = 100;
 
+/** Le plus grand entier d'une colonne `integer` Postgres : au-delà, la base refuserait le créneau. */
+export const SLOT_CAPACITY_MAX = 2_147_483_647;
+
 /** Corps de `POST /api/slots`. */
 export const openSlotSchema = z
   .object({
     disciplineId: z.uuid(),
     startsAt: z.iso.datetime({ offset: true }),
     endsAt: z.iso.datetime({ offset: true }),
-    capacity: z.int().min(1),
+    capacity: z.int().min(1).max(SLOT_CAPACITY_MAX),
   })
   .refine((input) => Date.parse(input.endsAt) > Date.parse(input.startsAt), {
     message: 'The end must be after the start',

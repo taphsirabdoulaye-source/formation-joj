@@ -30,6 +30,13 @@ describe('Slot', () => {
     });
   });
 
+  it('001-AS2: rejects a capacity beyond the column range', () => {
+    expect(() => openSlot(2_147_483_648)).toThrow(
+      expect.objectContaining({ code: 'SLOT_CAPACITY_INVALID', kind: 'VALIDATION' }),
+    );
+    expect(openSlot(2_147_483_647).capacity).toBe(2_147_483_647);
+  });
+
   it.each([0, -1, 1.5])('001-AS2: rejects a capacity below 1 or not whole (%j)', (capacity) => {
     expect(() => openSlot(capacity)).toThrow(
       expect.objectContaining({ code: 'SLOT_CAPACITY_INVALID', kind: 'VALIDATION' }),

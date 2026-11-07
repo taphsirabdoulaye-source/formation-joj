@@ -58,6 +58,16 @@ describe('/api/slots (e2e)', () => {
     expect(response.body.errors).toEqual([expect.objectContaining({ path: field })]);
   });
 
+  it('001-AS2: rejects a capacity beyond the column range (400, names capacity)', async () => {
+    const response = await api()
+      .post('/api/slots')
+      .send(slotBody({ capacity: 3_000_000_000 }))
+      .expect(400);
+
+    expect(response.body).toMatchObject({ status: 400, code: 'VALIDATION_FAILED' });
+    expect(response.body.errors).toEqual([expect.objectContaining({ path: 'capacity' })]);
+  });
+
   it('001-AS3: refuses a slot for an unknown discipline (404)', async () => {
     const response = await api()
       .post('/api/slots')
