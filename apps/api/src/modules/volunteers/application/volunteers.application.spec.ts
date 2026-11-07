@@ -33,6 +33,16 @@ describe('volunteers (application layer)', () => {
     expect(await slots.findById(slot.id)).toEqual(slot);
   });
 
+  it.each([
+    ['a capacity of 0', { capacity: 0 }, 'SLOT_CAPACITY_INVALID'],
+    ['an end equal to the start', { endsAt: '2026-11-01T09:00:00.000Z' }, 'SLOT_ENDS_BEFORE_START'],
+  ])('001-AS2: stores no slot for %s', async (_label, overrides, code) => {
+    const { slots, openSlot } = setup();
+
+    await expect(openSlot.execute({ ...morning(), ...overrides })).rejects.toMatchObject({ code });
+    expect(slots.allSlots()).toEqual([]);
+  });
+
   it('001-AS3: refuses a slot for an unknown discipline', async () => {
     const { slots, openSlot } = setup();
 
