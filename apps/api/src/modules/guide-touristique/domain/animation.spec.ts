@@ -22,7 +22,7 @@ const BASE: Parameters<typeof Animation.create>[0] = {
 };
 
 describe('Animation', () => {
-  it('AS1: creates an animation with a trimmed name', () => {
+  it('creates an animation with a trimmed name', () => {
     const animation = Animation.create({ ...BASE, nom: '  Visite guidée  ' });
     expect(animation).toMatchObject({
       id: ID,
@@ -34,36 +34,36 @@ describe('Animation', () => {
     expect(animation.lieu.id).toBe(dakar.id);
   });
 
-  it.each(['', '   '])('AS2: rejects an animation without a name (%j)', (nom) => {
+  it.each(['', '   '])('rejects an animation without a name (%j)', (nom) => {
     expect(() => Animation.create({ ...BASE, nom })).toThrow(
       expect.objectContaining({ code: 'ANIMATION_NOM_REQUIRED', kind: 'VALIDATION' }),
     );
   });
 
-  it('AS2: rejects a name that is too long', () => {
+  it('rejects a name that is too long', () => {
     expect(() => Animation.create({ ...BASE, nom: 'x'.repeat(151) })).toThrow(
       expect.objectContaining({ code: 'ANIMATION_NOM_TOO_LONG' }),
     );
   });
 
-  it('AS3: rejects a date outside the JOJ period (before)', () => {
+  it('rejects a date outside the JOJ period (before)', () => {
     expect(() => Animation.create({ ...BASE, date: '2026-10-30' })).toThrow(
       expect.objectContaining({ code: 'ANIMATION_OUTSIDE_GAMES_PERIOD', kind: 'BUSINESS_RULE' }),
     );
   });
 
-  it('AS3: rejects a date outside the JOJ period (after)', () => {
+  it('rejects a date outside the JOJ period (after)', () => {
     expect(() => Animation.create({ ...BASE, date: '2026-11-14' })).toThrow(
       expect.objectContaining({ code: 'ANIMATION_OUTSIDE_GAMES_PERIOD', kind: 'BUSINESS_RULE' }),
     );
   });
 
-  it('AS3: accepts the first and last days of the JOJ period', () => {
+  it('accepts the first and last days of the JOJ period', () => {
     expect(() => Animation.create({ ...BASE, date: '2026-10-31' })).not.toThrow();
     expect(() => Animation.create({ ...BASE, date: '2026-11-13' })).not.toThrow();
   });
 
-  it('AS4: rejects a fin time equal to or before debut time', () => {
+  it('rejects a fin time equal to or before debut time', () => {
     expect(() => Animation.create({ ...BASE, heureDebut: '10:00', heureFin: '10:00' })).toThrow(
       expect.objectContaining({ code: 'ANIMATION_FIN_BEFORE_DEBUT', kind: 'VALIDATION' }),
     );
@@ -75,21 +75,21 @@ describe('Animation', () => {
   describe('isEnCours', () => {
     const animation = Animation.create(BASE); // 09:00–11:00
 
-    it('AS5: true when heure is within [heureDebut, heureFin[', () => {
+    it('002-AS4: true when heure is within [heureDebut, heureFin[', () => {
       expect(animation.isEnCours('09:00')).toBe(true); // borne incluse
       expect(animation.isEnCours('10:30')).toBe(true);
       expect(animation.isEnCours('10:59')).toBe(true);
     });
 
-    it('AS5: false when heure is exactly heureFin (excluded)', () => {
+    it('002-AS4: false when heure is exactly heureFin (excluded)', () => {
       expect(animation.isEnCours('11:00')).toBe(false); // borne exclue
     });
 
-    it('AS5: false when heure is before heureDebut', () => {
+    it('002-AS3: false when heure is before heureDebut', () => {
       expect(animation.isEnCours('08:59')).toBe(false);
     });
 
-    it('AS5: false when heure is after heureFin', () => {
+    it('002-AS3: false when heure is after heureFin', () => {
       expect(animation.isEnCours('11:01')).toBe(false);
     });
   });

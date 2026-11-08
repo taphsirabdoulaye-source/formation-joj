@@ -43,7 +43,7 @@ function setup() {
 }
 
 describe('guide-touristique (application layer)', () => {
-  it('AS1: lists the animations of a day sorted by heureDebut', async () => {
+  it('002-AS1: lists the animations of a day sorted by heureDebut', async () => {
     const { repo, listAnimationsDuJour } = setup();
 
     const visite = makeAnimation({ heureDebut: '14:00', heureFin: '16:00' });
@@ -58,12 +58,12 @@ describe('guide-touristique (application layer)', () => {
     expect(result.map((a) => a.nom)).toEqual(['Concert', 'Conférence', 'Visite guidée']);
   });
 
-  it('AS1: returns an empty list when there are no animations that day', async () => {
+  it('002-AS2: returns an empty list when there are no animations that day', async () => {
     const { listAnimationsDuJour } = setup();
     expect(await listAnimationsDuJour.execute('2026-11-02')).toEqual([]);
   });
 
-  it('AS1: only returns animations of the requested date', async () => {
+  it('002-AS1: only returns animations of the requested date', async () => {
     const { repo, listAnimationsDuJour } = setup();
     await repo.insert(makeAnimation({ date: '2026-11-01' }));
     await repo.insert(makeAnimation({ nom: 'Autre jour', date: '2026-11-02' }));
@@ -73,7 +73,7 @@ describe('guide-touristique (application layer)', () => {
     expect(result[0]?.nom).toBe('Visite guidée');
   });
 
-  it('AS2: returns animations currently in progress at a given time', async () => {
+  it('002-AS3: returns animations currently in progress at a given time', async () => {
     const { repo, getAnimationsEnCours } = setup();
 
     // 09:00–11:00
@@ -87,14 +87,14 @@ describe('guide-touristique (application layer)', () => {
     expect(enCours.map((a) => a.nom).sort()).toEqual(['Matin', 'Midi']);
   });
 
-  it('AS2: returns empty when nothing is in progress', async () => {
+  it('002-AS3: returns empty when nothing is in progress', async () => {
     const { repo, getAnimationsEnCours } = setup();
     await repo.insert(makeAnimation({ heureDebut: '14:00', heureFin: '16:00' }));
 
     expect(await getAnimationsEnCours.execute('2026-11-01T10:00:00Z')).toEqual([]);
   });
 
-  it('AS2: heureFin is excluded from the interval', async () => {
+  it('002-AS4: heureFin is excluded from the interval', async () => {
     const { repo, getAnimationsEnCours } = setup();
     await repo.insert(makeAnimation({ heureDebut: '09:00', heureFin: '11:00' }));
 
@@ -104,7 +104,7 @@ describe('guide-touristique (application layer)', () => {
     expect(await getAnimationsEnCours.execute('2026-11-01T10:59:00Z')).toHaveLength(1);
   });
 
-  it('AS2: heureDebut is included in the interval', async () => {
+  it('002-AS4: heureDebut is included in the interval', async () => {
     const { repo, getAnimationsEnCours } = setup();
     await repo.insert(makeAnimation({ heureDebut: '09:00', heureFin: '11:00' }));
 

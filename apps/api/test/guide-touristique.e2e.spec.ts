@@ -31,7 +31,7 @@ describe('/api/guide-touristique (e2e)', () => {
 
   afterAll(() => app?.close());
 
-  it('AS1: lists animations of a day sorted by heureDebut (200)', async () => {
+  it('002-AS1: lists animations of a day sorted by heureDebut (200)', async () => {
     const response = await api().get('/api/guide-touristique/agenda/2026-11-01').expect(200);
     const animations = animationListSchema.parse(response.body);
 
@@ -40,12 +40,12 @@ describe('/api/guide-touristique (e2e)', () => {
     expect(heures).toEqual(['09:00', '10:00', '14:00']);
   });
 
-  it('AS1: returns an empty list for a day with no animations (200)', async () => {
+  it('002-AS2: returns an empty list for a day with no animations (200)', async () => {
     const response = await api().get('/api/guide-touristique/agenda/2026-11-05').expect(200);
     expect(animationListSchema.parse(response.body)).toEqual([]);
   });
 
-  it('AS1: each animation includes its lieu', async () => {
+  it('002-AS1: each animation includes its lieu', async () => {
     const response = await api().get('/api/guide-touristique/agenda/2026-11-01').expect(200);
     const animations = animationListSchema.parse(response.body);
     for (const animation of animations) {
@@ -53,7 +53,7 @@ describe('/api/guide-touristique (e2e)', () => {
     }
   });
 
-  it('AS2: returns animations currently in progress at a given time (200)', async () => {
+  it('002-AS3: returns animations currently in progress at a given time (200)', async () => {
     // À 10:30 : Concert (09:00–11:00) et Visite guidée (10:00–12:00) sont en cours
     const response = await api()
       .get('/api/guide-touristique/en-cours?at=2026-11-01T10:30:00Z')
@@ -65,14 +65,14 @@ describe('/api/guide-touristique (e2e)', () => {
     expect(noms).toEqual(['Concert de kora', 'Visite guidée']);
   });
 
-  it('AS2: returns empty list when nothing is in progress (200)', async () => {
+  it('002-AS3: returns empty list when nothing is in progress (200)', async () => {
     const response = await api()
       .get('/api/guide-touristique/en-cours?at=2026-11-01T13:00:00Z')
       .expect(200);
     expect(animationListSchema.parse(response.body)).toEqual([]);
   });
 
-  it('AS2: heureFin is excluded from the interval', async () => {
+  it('002-AS4: heureFin is excluded from the interval', async () => {
     // À 11:00 exactement : Concert (09:00–11:00) n'est plus en cours
     const response = await api()
       .get('/api/guide-touristique/en-cours?at=2026-11-01T11:00:00Z')
@@ -81,7 +81,7 @@ describe('/api/guide-touristique (e2e)', () => {
     expect(noms).not.toContain('Concert de kora');
   });
 
-  it('AS2: heureDebut is included in the interval', async () => {
+  it('002-AS4: heureDebut is included in the interval', async () => {
     // À 09:00 exactement : Concert (09:00–11:00) est en cours
     const response = await api()
       .get('/api/guide-touristique/en-cours?at=2026-11-01T09:00:00Z')
@@ -90,13 +90,13 @@ describe('/api/guide-touristique (e2e)', () => {
     expect(noms).toContain('Concert de kora');
   });
 
-  it('AS3: rejects an invalid date format for the agenda route (400)', async () => {
+  it('002-AS5: rejects an invalid date format for the agenda route (400)', async () => {
     const response = await api().get('/api/guide-touristique/agenda/01-11-2026').expect(400);
     expect(response.headers['content-type']).toMatch(/application\/problem\+json/);
     expect(response.body).toMatchObject({ status: 400, code: 'VALIDATION_FAILED' });
   });
 
-  it('AS3: rejects a missing ?at parameter for the en-cours route (400)', async () => {
+  it('002-AS6: rejects a missing ?at parameter for the en-cours route (400)', async () => {
     const response = await api().get('/api/guide-touristique/en-cours').expect(400);
     expect(response.body).toMatchObject({ status: 400, code: 'VALIDATION_FAILED' });
   });

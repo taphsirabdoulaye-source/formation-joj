@@ -52,7 +52,7 @@ describe('DrizzleAnimationRepository (in-memory PGlite, migrations applied)', ()
 
   afterAll(() => connection?.close());
 
-  it('AS1: reads back what it wrote, with the joined lieu', async () => {
+  it('002-AS1: reads back what it wrote, with the joined lieu', async () => {
     const animation = makeAnimation({ nom: 'Visite Plateau', date: '2026-11-01' });
     await repository.insert(animation);
 
@@ -65,7 +65,7 @@ describe('DrizzleAnimationRepository (in-memory PGlite, migrations applied)', ()
     expect(found?.lieu.nom).toBe(plateau.nom);
   });
 
-  it('AS1: lists animations of a day sorted by heureDebut', async () => {
+  it('002-AS1: lists animations of a day sorted by heureDebut', async () => {
     const date = '2026-11-02';
     await repository.insert(
       makeAnimation({ nom: 'Soir', date, heureDebut: '18:00', heureFin: '20:00' }),
@@ -81,11 +81,11 @@ describe('DrizzleAnimationRepository (in-memory PGlite, migrations applied)', ()
     expect(result.map((a) => a.nom)).toEqual(['Matin', 'Midi', 'Soir']);
   });
 
-  it('AS1: returns empty for a day with no animations', async () => {
+  it('002-AS2: returns empty for a day with no animations', async () => {
     expect(await repository.listByDate('2026-11-10')).toEqual([]);
   });
 
-  it('AS1: only returns animations of the requested date', async () => {
+  it('002-AS1: only returns animations of the requested date', async () => {
     const a1 = makeAnimation({ nom: 'Jour 3', date: '2026-11-03' });
     const a2 = makeAnimation({ nom: 'Jour 4', date: '2026-11-04' });
     await repository.insert(a1);
@@ -96,7 +96,7 @@ describe('DrizzleAnimationRepository (in-memory PGlite, migrations applied)', ()
     expect(result.map((a) => a.nom)).not.toContain('Jour 4');
   });
 
-  it('AS2: finds a lieu by its id', async () => {
+  it('finds a lieu by its id', async () => {
     expect(await repository.findLieuById(plateau.id)).toMatchObject({
       id: plateau.id,
       nom: plateau.nom,
