@@ -124,6 +124,21 @@ describe('/api/guide-touristique (e2e)', () => {
     expect(response.body).toMatchObject({ status: 400, code: 'VALIDATION_FAILED' });
   });
 
+  it('002-AS5: rejects a malformed date (400, errors on date)', async () => {
+    const response = await api().get('/api/guide-touristique/agenda/01-11-2026').expect(400);
+
+    expect(response.body).toMatchObject({ status: 400, code: 'VALIDATION_FAILED' });
+    expect(response.body.errors).toEqual([expect.objectContaining({ path: 'date' })]);
+  });
+
+  it('002-AS5: rejects a malformed instant (400, errors on at)', async () => {
+    const response = await api().get('/api/guide-touristique/en-cours?at=demain-10h30').expect(400);
+
+    expect(response.headers['content-type']).toMatch(/application\/problem\+json/);
+    expect(response.body).toMatchObject({ status: 400, code: 'VALIDATION_FAILED' });
+    expect(response.body.errors).toEqual([expect.objectContaining({ path: 'at' })]);
+  });
+
   it('002-AS6: rejects a missing ?at parameter for the en-cours route (400)', async () => {
     const response = await api().get('/api/guide-touristique/en-cours').expect(400);
     expect(response.body).toMatchObject({ status: 400, code: 'VALIDATION_FAILED' });
