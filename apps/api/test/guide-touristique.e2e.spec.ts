@@ -139,6 +139,16 @@ describe('/api/guide-touristique (e2e)', () => {
     expect(response.body.errors).toEqual([expect.objectContaining({ path: 'at' })]);
   });
 
+  it.each(['2026-13-45', '2026-02-30'])(
+    '002-AS5: rejects an impossible calendar date %s (400, not 500)',
+    async (date) => {
+      const response = await api().get(`/api/guide-touristique/agenda/${date}`).expect(400);
+
+      expect(response.body).toMatchObject({ status: 400, code: 'VALIDATION_FAILED' });
+      expect(response.body.errors).toEqual([expect.objectContaining({ path: 'date' })]);
+    },
+  );
+
   it('002-AS6: rejects a missing ?at parameter for the en-cours route (400)', async () => {
     const response = await api().get('/api/guide-touristique/en-cours').expect(400);
     expect(response.body).toMatchObject({ status: 400, code: 'VALIDATION_FAILED' });

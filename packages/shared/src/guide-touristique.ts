@@ -31,9 +31,12 @@ export type LieuResponse = z.infer<typeof lieuSchema>;
 
 export const lieuListSchema = z.array(lieuSchema);
 
-/** Paramètre `:date` des routes du guide : une date ISO `YYYY-MM-DD`. */
+/**
+ * Paramètre `:date` des routes du guide : une date ISO `YYYY-MM-DD` qui existe au calendrier.
+ * Une date impossible (2026-13-45) est refusée ici, avant d'atteindre la base.
+ */
 export const dateParamsSchema = z.object({
-  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Expected YYYY-MM-DD'),
+  date: z.iso.date({ message: 'Expected an existing date YYYY-MM-DD' }),
 });
 
 /** Paramètre `?at=` pour les animations en cours : une date-heure ISO 8601. */
