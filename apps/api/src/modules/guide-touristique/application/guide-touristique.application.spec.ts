@@ -87,6 +87,23 @@ describe('guide-touristique (application layer)', () => {
     expect(enCours.map((a) => a.nom).sort()).toEqual(['Matin', 'Midi']);
   });
 
+  it('002-AS3: converts an instant with an offset to Dakar time', async () => {
+    const { repo, getAnimationsEnCours } = setup();
+    await repo.insert(makeAnimation({ nom: 'Matin', heureDebut: '09:00', heureFin: '11:00' }));
+    await repo.insert(makeAnimation({ nom: 'Midi', heureDebut: '10:00', heureFin: '12:00' }));
+    await repo.insert(
+      makeAnimation({ nom: 'Veille', date: '2026-10-31', heureDebut: '23:00', heureFin: '23:59' }),
+    );
+
+    // 11 h 30 à UTC+1 = 10 h 30 à Dakar (UTC+0), le même jour.
+    const sameDay = await getAnimationsEnCours.execute('2026-11-01T11:30:00+01:00');
+    expect(sameDay.map((a) => a.nom).sort()).toEqual(['Matin', 'Midi']);
+
+    // 1 h 30 le 1er novembre à UTC+2 = 23 h 30 la veille à Dakar.
+    const dayBefore = await getAnimationsEnCours.execute('2026-11-01T01:30:00+02:00');
+    expect(dayBefore.map((a) => a.nom)).toEqual(['Veille']);
+  });
+
   it('002-AS3: returns empty when nothing is in progress', async () => {
     const { repo, getAnimationsEnCours } = setup();
     await repo.insert(makeAnimation({ heureDebut: '14:00', heureFin: '16:00' }));
