@@ -1,5 +1,22 @@
+import { readdirSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { seedStatements, tableNameFromFile } from './db-core.mts';
+import { seedFiles, seedStatements, tableNameFromFile } from './db-core.mts';
+
+describe('seedFiles', () => {
+  it('keeps only the JSON files, in loading order', () => {
+    expect(seedFiles(['b.json', 'notes.txt', '01-a.json'])).toEqual(['01-a.json', 'b.json']);
+  });
+
+  it('002-AS1: loads the demo places before the animations that reference them', () => {
+    const dataDir = fileURLToPath(new URL('../data', import.meta.url));
+    const tables = seedFiles(readdirSync(dataDir)).map(tableNameFromFile);
+
+    expect(tables).toContain('lieux');
+    expect(tables).toContain('animations');
+    expect(tables.indexOf('lieux')).toBeLessThan(tables.indexOf('animations'));
+  });
+});
 
 describe('tableNameFromFile', () => {
   it('uses the file name without its ordering prefix', () => {

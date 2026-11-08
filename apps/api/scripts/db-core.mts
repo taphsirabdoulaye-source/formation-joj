@@ -17,6 +17,14 @@ export function tableNameFromFile(fileName: string): string {
 }
 
 /**
+ * Les fichiers de `data/` à charger, dans l'ordre de chargement : l'ordre alphabétique, que le
+ * préfixe numérique (`01-lieux.json` avant `02-animations.json`) permet d'imposer.
+ */
+export function seedFiles(fileNames: readonly string[]): string[] {
+  return fileNames.filter((file) => file.endsWith('.json')).sort();
+}
+
+/**
  * Une ligne JSON = une ligne de la table ; les clés sont les noms des colonnes en base
  * (snake_case). Une ligne déjà présente (même clé ou même valeur unique) est ignorée : le seed
  * peut être relancé sans erreur.

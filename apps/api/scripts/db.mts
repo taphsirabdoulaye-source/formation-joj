@@ -12,7 +12,7 @@ import { migrate as migratePg } from 'drizzle-orm/node-postgres/migrator';
 import { drizzle as drizzlePglite } from 'drizzle-orm/pglite';
 import { migrate as migratePglite } from 'drizzle-orm/pglite/migrator';
 import pg from 'pg';
-import { seedStatements, tableNameFromFile } from './db-core.mts';
+import { seedFiles, seedStatements, tableNameFromFile } from './db-core.mts';
 
 const command = process.argv[2];
 if (command !== 'seed' && command !== 'reset') {
@@ -89,11 +89,7 @@ try {
   }
   await client.migrate();
 
-  const files = existsSync(dataDir)
-    ? readdirSync(dataDir)
-        .filter((file) => file.endsWith('.json'))
-        .sort()
-    : [];
+  const files = existsSync(dataDir) ? seedFiles(readdirSync(dataDir)) : [];
   for (const file of files) {
     const table = tableNameFromFile(file);
     const statements = seedStatements(
