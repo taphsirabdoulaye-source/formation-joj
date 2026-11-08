@@ -45,6 +45,34 @@ describe('/api/guide-touristique (e2e)', () => {
     expect(animationListSchema.parse(response.body)).toEqual([]);
   });
 
+  it("002-AS1: returns the day's animations sorted by start time, each with its place name and district", async () => {
+    const response = await api().get('/api/guide-touristique/agenda/2026-11-01').expect(200);
+
+    expect(
+      animationListSchema.parse(response.body).map(({ nom, heureDebut, lieu }) => ({
+        nom,
+        heureDebut,
+        lieu: { nom: lieu.nom, quartier: lieu.quartier },
+      })),
+    ).toEqual([
+      {
+        nom: 'Concert de kora',
+        heureDebut: '09:00',
+        lieu: { nom: 'Musée Théodore Monod', quartier: 'Plateau' },
+      },
+      {
+        nom: 'Visite guidée',
+        heureDebut: '10:00',
+        lieu: { nom: 'Musée Théodore Monod', quartier: 'Plateau' },
+      },
+      {
+        nom: 'Marché artisanal',
+        heureDebut: '14:00',
+        lieu: { nom: 'Marché Sandaga', quartier: 'Médina' },
+      },
+    ]);
+  });
+
   it('002-AS1: each animation includes its lieu', async () => {
     const response = await api().get('/api/guide-touristique/agenda/2026-11-01').expect(200);
     const animations = animationListSchema.parse(response.body);
